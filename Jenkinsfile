@@ -1,31 +1,27 @@
 pipeline {
-  agent any
-  stages {
-    stage('Build') {
-      steps {
-        // Perform build steps here
-        sh 'mvn clean package'
-      }
+    agent any
+    stages {
+        stage( 'Build') {
+            steps {
+                sh 'g++ pes2ug20cs036.cpp'
+                echo 'Build Stage Successful '
+            }
+        }
+        stage( 'Test') {
+             steps {
+                sh './pes2ug20cs036'
+                echo 'Test Stage Successful '
+             }
+        }
+        stage( 'Deploy') {
+            steps {
+                echo 'Deployment Successful '
+            }
+        }
     }
-    stage('Test') {
-      steps {
-        // Perform test steps here
-        sh 'mvn test'
-      }
+    post {
+        failure {
+            echo 'pipeline failed'
+        }
     }
-    stage('Deploy') {
-      steps {
-        // Perform deploy steps here
-        sh 'scp target/myapp.war user@remote:/opt/tomcat/webapps'
-      }
-    }
-  }
-  post {
-    always {
-      echo 'Pipeline completed'
-    }
-    failure {
-      echo 'Pipeline failed'
-    }
-  }
 }
