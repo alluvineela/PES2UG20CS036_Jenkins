@@ -1,27 +1,35 @@
 pipeline {
     agent any
+
     stages {
-        stage( 'Build') {
+        stage('Build') {
             steps {
-                echo 'Build Stage Successful '
-                
+                 sh 'g++ pes2ug20cs036.cpp -o pes2ug20cs036'
+                 build job: 'PES2UG20CS036-1', wait: false
+                 echo 'Build by CS036 successful'
             }
         }
-        stage( 'Test') {
-             steps {
-                sh './pes2ug20cs036'
-                echo 'Test Stage Successful '
-             }
-        }
-        stage( 'Deploy') {
+
+        stage('Test') {
             steps {
-                echo 'Deployment Successful '
+               sh 'cat pes2ug20cs036.cpp'
+                echo 'Test by CS036 successful'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+               
+                echo 'Deploy by CS036 successful'
             }
         }
     }
+
     post {
         failure {
-            echo 'pipeline failed'
+            
+                echo 'Pipeline Failed'
+          
         }
     }
 }
